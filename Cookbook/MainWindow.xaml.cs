@@ -25,6 +25,7 @@ namespace Cookbook
 
             }
 
+            Zutat0.Visibility = anzahl >= 0 ? Visibility.Visible : Visibility.Hidden;
             Zutat1.Visibility = anzahl >= 1 ? Visibility.Visible : Visibility.Hidden;
             Zutat2.Visibility = anzahl >= 2 ? Visibility.Visible : Visibility.Hidden;
             Zutat3.Visibility = anzahl >= 3 ? Visibility.Visible : Visibility.Hidden;
@@ -35,6 +36,12 @@ namespace Cookbook
             Zutat8.Visibility = anzahl >= 8 ? Visibility.Visible : Visibility.Hidden;
             Zutat9.Visibility = anzahl >= 9 ? Visibility.Visible : Visibility.Hidden;
             Zutat10.Visibility = anzahl >= 10 ? Visibility.Visible : Visibility.Hidden;
+            Zutat11.Visibility = anzahl >= 11 ? Visibility.Visible : Visibility.Hidden;
+            Zutat12.Visibility = anzahl >= 12 ? Visibility.Visible : Visibility.Hidden;
+            Zutat13.Visibility = anzahl >= 13 ? Visibility.Visible : Visibility.Hidden;
+            Zutat14.Visibility = anzahl >= 14 ? Visibility.Visible : Visibility.Hidden;
+            Zutat15.Visibility = anzahl >= 15 ? Visibility.Visible : Visibility.Hidden;
+            Zutat16.Visibility = anzahl >= 16 ? Visibility.Visible : Visibility.Hidden;
 
 
         }
@@ -51,31 +58,30 @@ namespace Cookbook
         private void Save_Click(object sender, RoutedEventArgs e)
         {
             Recepts NeuesRezept = new Recepts();
-            if (AnzahlZutaten != null)
-                NeuesRezept.AnzahlderZutaten = Convert.ToInt32(AnzahlZutaten.Text);
-
-            for(int i = 0; i < NeuesRezept.AnzahlderZutaten; i++)
-
-            {
-
-                TextBox text = this.FindName("Zutat" + i) as TextBox;
-
-                if(text != null)
-                {
-                    NeuesRezept.NamenDerZutaten[i] = text.Text;
-                    Debug.WriteLine($"NeuesRezept.NamenDerZutaten: {i}");
-                }
-                Debug.WriteLine("GarNixGEht");
-            }
- 
+            if (AnzahlZutaten != null || Zutat0 != null || Zutat2 != null || Zutat2 != null || Zutat3 != null || Zutat4 != null || Zutat5 != null
+                || Zutat6 != null || Zutat7 != null || Zutat8 != null || Zutat9 != null || Zutat10 != null || Zutat11 != null || Zutat12 != null
+                || Zutat13 != null || Zutat14 != null || Zutat15 != null || Zutat16 != null)
+            { 
+       
+            NeuesRezept.AnzahlderZutaten = Convert.ToInt32(AnzahlZutaten.Text);
+            
             Console.WriteLine(NeuesRezept.AnzahlderZutaten);
             string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments); 
             StreamWriter sr = new StreamWriter(path + "/Cookbook/Rezepte");
-            sr.WriteLine(NeuesRezept.AnzahlderZutaten);
-            sr.Close();
+                sr.WriteLine(NeuesRezept.AnzahlderZutaten);
+     
+
+                for(int i = 0; i < NeuesRezept.AnzahlderZutaten; i++)
+                {
+                    var xy = Convert.ToString(FindName($"Zutat{i}"));
+                    NeuesRezept.Materials.Add(xy);
+                    sr.WriteLine(NeuesRezept.Materials[i]);             
+                }
+                sr.Close();
+            }
         }
 
-        private void FolderAvailable()
+        private void  FolderAvailable()
         {
             if (Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)))
             {

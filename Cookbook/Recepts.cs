@@ -11,6 +11,6 @@ namespace Cookbook
 
         public string Zubereitung;
 
-        public string BenötigteGegenstände;
+        public List<string> Materials = new List<string>();
     }
 }
