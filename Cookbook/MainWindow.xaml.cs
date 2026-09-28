@@ -14,7 +14,7 @@ namespace Cookbook
         {
             InitializeComponent();
             FolderAvailable();
-            
+
         }
 
         private void AnzahlZutaten_TextChanged(object sender, TextChangedEventArgs e)
@@ -25,7 +25,6 @@ namespace Cookbook
 
             }
 
-            Zutat0.Visibility = anzahl >= 0 ? Visibility.Visible : Visibility.Hidden;
             Zutat1.Visibility = anzahl >= 1 ? Visibility.Visible : Visibility.Hidden;
             Zutat2.Visibility = anzahl >= 2 ? Visibility.Visible : Visibility.Hidden;
             Zutat3.Visibility = anzahl >= 3 ? Visibility.Visible : Visibility.Hidden;
@@ -42,6 +41,7 @@ namespace Cookbook
             Zutat14.Visibility = anzahl >= 14 ? Visibility.Visible : Visibility.Hidden;
             Zutat15.Visibility = anzahl >= 15 ? Visibility.Visible : Visibility.Hidden;
             Zutat16.Visibility = anzahl >= 16 ? Visibility.Visible : Visibility.Hidden;
+            Zutat17.Visibility = anzahl >= 17 ? Visibility.Visible : Visibility.Hidden;
 
 
         }
@@ -57,31 +57,45 @@ namespace Cookbook
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            Recepts NeuesRezept = new Recepts();
-            if (AnzahlZutaten != null || Zutat0 != null || Zutat2 != null || Zutat2 != null || Zutat3 != null || Zutat4 != null || Zutat5 != null
-                || Zutat6 != null || Zutat7 != null || Zutat8 != null || Zutat9 != null || Zutat10 != null || Zutat11 != null || Zutat12 != null
-                || Zutat13 != null || Zutat14 != null || Zutat15 != null || Zutat16 != null)
-            { 
-       
-            NeuesRezept.AnzahlderZutaten = Convert.ToInt32(AnzahlZutaten.Text);
-            
-            Console.WriteLine(NeuesRezept.AnzahlderZutaten);
-            string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments); 
-            StreamWriter sr = new StreamWriter(path + "/Cookbook/Rezepte");
-                sr.WriteLine(NeuesRezept.AnzahlderZutaten);
-     
 
-                for(int i = 0; i < NeuesRezept.AnzahlderZutaten; i++)
+            AddIngredients();
+            if (AnzahlZutaten == null || string.IsNullOrWhiteSpace(AnzahlZutaten.Text))
+                return;
+            if (!int.TryParse(AnzahlZutaten.Text, out int anzahl))
+                return;
+
+            Recepts NeuesRezept = new Recepts();
+            if (AnzahlZutaten != null || Zutat1 != null || Zutat2 != null || Zutat3 != null || Zutat4 != null || Zutat5 != null || Zutat6 != null
+                || Zutat7 != null || Zutat8 != null || Zutat9 != null || Zutat10 != null || Zutat11 != null || Zutat12 != null || Zutat13 != null
+                || Zutat14 != null || Zutat15 != null || Zutat16 != null || Zutat17 != null)
+            {
+
+                NeuesRezept.AnzahlderZutaten = Convert.ToInt32(AnzahlZutaten.Text);
+
+                Console.WriteLine(NeuesRezept.AnzahlderZutaten);
+                string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                StreamWriter sr = new StreamWriter(path + "/Cookbook/Rezepte");
+                sr.WriteLine(NeuesRezept.AnzahlderZutaten);
+
+
+                for (int i = 0; i < NeuesRezept.AnzahlderZutaten + 1; i++)
                 {
-                    var xy = Convert.ToString(FindName($"Zutat{i}"));
+                    var element = FindName($"Zutat{i}") as TextBox;
+
+                    if (element == null)
+                    {
+                        continue;
+                    }
+                    string xy = element.Text.ToString();
                     NeuesRezept.Materials.Add(xy);
-                    sr.WriteLine(NeuesRezept.Materials[i]);             
+                    sr.WriteLine(xy);
                 }
                 sr.Close();
             }
+
         }
 
-        private void  FolderAvailable()
+        private void FolderAvailable()
         {
             if (Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)))
             {
@@ -94,5 +108,15 @@ namespace Cookbook
         }
 
 
+    
+      public void AddIngredients()
+        {
+            if (Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)))
+            {
+                string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                Ingredients.Text = DescriptionBox.Text;
+                File.AppendAllText(path + "/Cookbook/Description", Ingredients.Text + Environment.NewLine);
+            }
+        }
     }
-}
+} //Es wäre wahrscheinlich besser mit json.
