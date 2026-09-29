@@ -13,7 +13,7 @@ namespace Cookbook
         public MainWindow()
         {
             InitializeComponent();
-            FolderAvailable();
+            CreateFolder();
 
         }
 
@@ -42,6 +42,7 @@ namespace Cookbook
             Zutat15.Visibility = anzahl >= 15 ? Visibility.Visible : Visibility.Hidden;
             Zutat16.Visibility = anzahl >= 16 ? Visibility.Visible : Visibility.Hidden;
             Zutat17.Visibility = anzahl >= 17 ? Visibility.Visible : Visibility.Hidden;
+            Zutat18.Visibility = anzahl >= 18 ? Visibility.Visible : Visibility.Hidden;
 
 
         }
@@ -92,24 +93,31 @@ namespace Cookbook
                 }
                 sr.Close();
             }
+            MessageBox.Show("Datei erfolgreich gespeichert");
 
         }
 
-        private void FolderAvailable()
+        private void CreateFolder()
         {
-            if (Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)))
-            {
-                Debug.WriteLine("This is existing");
-                return;
-            }
-            string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            Directory.CreateDirectory(path + "/Cookbook");
-            File.Create(path + "/Cookbook/Rezepte");
+            // Pfad zum Dokumenten-Ordner holen
+            string dokumentePfad = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+            // Ordnerpfad korrekt mit Path.Combine zusammenfügen
+            string ordnerPfad = Path.Combine(dokumentePfad, "Cookbook");
+
+            // 1. Ordner erstellen (erstellt ihn nur, wenn er noch nicht existiert)
+            Directory.CreateDirectory(ordnerPfad);
+
+            // 2. Dateipfad für die Textdatei definieren
+            string dateiPfad = Path.Combine(ordnerPfad, "Description.txt");
+            string dateiPfad2 = Path.Combine(ordnerPfad, "Rezepte.txt");
+
+            Debug.WriteLine("Ordner und Datei wurden erfolgreich erstellt.");
         }
 
 
-    
-      public void AddIngredients()
+
+        public void AddIngredients()
         {
             if (Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)))
             {
@@ -117,6 +125,16 @@ namespace Cookbook
                 Ingredients.Text = DescriptionBox.Text;
                 File.AppendAllText(path + "/Cookbook/Description", Ingredients.Text + Environment.NewLine);
             }
+        }
+
+        private void Zutat1_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
         }
     }
 } //Es wäre wahrscheinlich besser mit json.

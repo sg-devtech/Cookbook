@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Label Content="Cookbook ADD Ingredients" HorizontalAlignment="Left" Margin="10,28,0,0" VerticalAlignment="Top" Width="386" FontSize="30" RenderTransformOrigin="0.5,0.5">
+        <Label Content="Cookbook add recept" HorizontalAlignment="Left" Margin="10,28,0,0" VerticalAlignment="Top" Width="386" FontSize="30" RenderTransformOrigin="0.5,0.5">
             <Label.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -17,29 +17,19 @@
                 </TransformGroup>
             </Label.RenderTransform>
         </Label>
-        <Label Content="Zutaten:" HorizontalAlignment="Left" Margin="10,84,0,0" VerticalAlignment="Top" Width="141" FontSize="20" Height="39"/>
         <UniformGrid x:Name="TextBoxPanel"
-             Columns="2" Margin="0,-10,0,10">
-            <TextBox TextWrapping="Wrap" Text="TextBox" Margin="0,139,260,277" RenderTransformOrigin="0.5,0.5">
-                <TextBox.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform ScaleY="1"/>
-                        <SkewTransform/>
-                        <RotateTransform/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </TextBox.RenderTransform>
-            </TextBox>
+             Columns="2" Margin="0,-15,0,15">
+            <TextBox TextWrapping="Wrap" Text="Name your recept" x:Name="NameOfTheRecept" Margin="301,105,-60,298"  FontSize="16" TextChanged="TextBox_TextChanged"/>
         </UniformGrid>
-        <Label Content="Zubereitung" HorizontalAlignment="Left" Margin="523,45,0,0" VerticalAlignment="Top" Width="137" FontSize="20" Height="39"/>
-        <TextBox HorizontalAlignment="Left" Margin="151,84,0,0" TextWrapping="Wrap" Text="Anzahl Zutaten" VerticalAlignment="Top" Width="151" Height="39" FontSize="20" x:Name="AnzahlZutaten" TextChanged="AnzahlZutaten_TextChanged"/>
+        <Label Content="Zubereitung" HorizontalAlignment="Left" Margin="523,45,0,0" VerticalAlignment="Top" FontSize="8" Height="8"/>
+        <TextBox HorizontalAlignment="Left" Margin="10,91,0,0" TextWrapping="Wrap" Text="Anzahl Zutaten hier eingeben" VerticalAlignment="Top" Width="267" Height="28" FontSize="20" x:Name="AnzahlZutaten" TextChanged="AnzahlZutaten_TextChanged"/>
         <TextBlock HorizontalAlignment="Left" Text="{Binding ElementName=DescriptionBox, Path=Text}" Margin="494,171,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="227" Width="263" x:Name="Ingredients"/>
         <Image HorizontalAlignment="Left" Height="48" Margin="10,0,0,0" VerticalAlignment="Center" Width="50" RenderTransformOrigin="0.532,0.54" />
         <Image HorizontalAlignment="Left" Height="50" Margin="718,217,0,0" VerticalAlignment="Top" Width="57" />
-        <Button Content="" HorizontalAlignment="Left" Margin="10,217,0,0" VerticalAlignment="Top" Height="50" Width="56" x:Name="ArrowLeft" Background="White" BorderThickness="0" Click="ArrowLeft_Click"/>
-        <Button Content="" HorizontalAlignment="Left" Margin="718,217,0,0" VerticalAlignment="Top" Height="50" Width="56" x:Name="ArrowRight" Background="White" BorderThickness="0" Click="ArrowRight_Click"/>
-        <Button Content="Save" HorizontalAlignment="Left" Margin="74,377,0,0" VerticalAlignment="Top" Width="147" Height="42" x:Name="Save" Click="Save_Click"/>
-        <TextBox TextWrapping="Wrap" Text="TextBox" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,276,0,0" Width="140" x:Name="Zutat1">
+        <Button Content="New Recept" HorizontalAlignment="Left" Margin="229,357,0,0" VerticalAlignment="Top" Height="50" Width="95" x:Name="ArrowLeft" Background="White" BorderThickness="0" Click="ArrowLeft_Click"/>
+        <Button Content="Search Recept" HorizontalAlignment="Left" Margin="367,357,0,0" VerticalAlignment="Top" Height="50" Width="89" x:Name="ArrowRight" Background="White" BorderThickness="0" Click="ArrowRight_Click" RenderTransformOrigin="-0.113,0.534"/>
+        <Button Content="Save" HorizontalAlignment="Left" Margin="42,340,0,0" VerticalAlignment="Top" Width="147" Height="42" x:Name="Save" Click="Save_Click"/>
+        <TextBox TextWrapping="Wrap" Text="" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,128,0,0" Width="140" x:Name="Zutat1" TextChanged="Zutat1_TextChanged">
             <TextBox.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleY="1"/>
@@ -49,7 +39,7 @@
                 </TransformGroup>
             </TextBox.RenderTransform>
         </TextBox>
-        <TextBox TextWrapping="Wrap" Text="TextBox" x:Name="Zutat2" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,247,0,0" Width="140">
+        <TextBox TextWrapping="Wrap" Text="" x:Name="Zutat2" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,162,0,0" Width="140">
             <TextBox.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleY="1"/>
@@ -59,7 +49,7 @@
                 </TransformGroup>
             </TextBox.RenderTransform>
         </TextBox>
-        <TextBox TextWrapping="Wrap" Text="TextBox" x:Name="Zutat3" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,217,0,0" Width="140">
+        <TextBox TextWrapping="Wrap" Text="" x:Name="Zutat3" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,189,0,0" Width="140">
             <TextBox.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleY="1"/>
@@ -69,7 +59,7 @@
                 </TransformGroup>
             </TextBox.RenderTransform>
         </TextBox>
-        <TextBox TextWrapping="Wrap" Text="TextBox" x:Name="Zutat4" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,189,0,0" Width="140">
+        <TextBox TextWrapping="Wrap" Text="" x:Name="Zutat4" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,217,0,0" Width="140">
             <TextBox.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleY="1"/>
@@ -79,7 +69,7 @@
                 </TransformGroup>
             </TextBox.RenderTransform>
         </TextBox>
-        <TextBox TextWrapping="Wrap" Text="TextBox" x:Name="Zutat5" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,162,0,0" Width="140">
+        <TextBox TextWrapping="Wrap" Text="" x:Name="Zutat5" RenderTransformOrigin="0.419,7.333" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,247,0,0" Width="140">
             <TextBox.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleY="1"/>
@@ -89,7 +79,7 @@
                 </TransformGroup>
             </TextBox.RenderTransform>
         </TextBox>
-        <TextBox TextWrapping="Wrap" Text="TextBox"  x:Name="Zutat6" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="151,128,0,0" Width="140">
+        <TextBox TextWrapping="Wrap" Text=""  x:Name="Zutat6" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,276,0,0" Width="140">
             <TextBox.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleY="1"/>
@@ -99,7 +89,7 @@
                 </TransformGroup>
             </TextBox.RenderTransform>
         </TextBox>
-        <TextBox TextWrapping="Wrap" Text="TextBox"  x:Name="Zutat7" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="151,162,0,0" Width="140">
+        <TextBox TextWrapping="Wrap" Text=""  x:Name="Zutat7" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="151,128,0,0" Width="140">
             <TextBox.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleY="1"/>
@@ -109,7 +99,7 @@
                 </TransformGroup>
             </TextBox.RenderTransform>
         </TextBox>
-        <TextBox TextWrapping="Wrap" Text="TextBox"  x:Name="Zutat8" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="151,189,0,0" Width="140">
+        <TextBox TextWrapping="Wrap" Text=""  x:Name="Zutat8" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="151,162,0,0" Width="140">
             <TextBox.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleY="1"/>
@@ -119,7 +109,7 @@
                 </TransformGroup>
             </TextBox.RenderTransform>
         </TextBox>
-        <TextBox TextWrapping="Wrap" Text="TextBox"  x:Name="Zutat9" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="151,217,0,0" Width="140">
+        <TextBox TextWrapping="Wrap" Text=""  x:Name="Zutat9" RenderTransformOrigin="0.505,0.522" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="151,189,0,0" Width="140">
             <TextBox.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleY="1"/>
@@ -129,7 +119,7 @@
                 </TransformGroup>
             </TextBox.RenderTransform>
         </TextBox>
-        <TextBox TextWrapping="Wrap" Text="TextBox"  x:Name="Zutat10" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="151,247,0,0" Width="140">
+        <TextBox TextWrapping="Wrap" Text=""  x:Name="Zutat10" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="151,217,0,0" Width="140">
             <TextBox.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleY="1"/>
@@ -139,7 +129,7 @@
                 </TransformGroup>
             </TextBox.RenderTransform>
         </TextBox>
-        <TextBox TextWrapping="Wrap" Text="TextBox"  x:Name="Zutat11" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="151,276,0,0" Width="140">
+        <TextBox TextWrapping="Wrap" Text=""  x:Name="Zutat11" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="151,247,0,0" Width="140">
             <TextBox.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleY="1"/>
@@ -149,7 +139,7 @@
                 </TransformGroup>
             </TextBox.RenderTransform>
         </TextBox>
-        <TextBox TextWrapping="Wrap" Text="TextBox"  x:Name="Zutat12" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="316,128,0,0" Width="140">
+        <TextBox TextWrapping="Wrap" Text=""  x:Name="Zutat12" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="151,276,0,0" Width="140">
             <TextBox.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleY="1"/>
@@ -159,7 +149,7 @@
                 </TransformGroup>
             </TextBox.RenderTransform>
         </TextBox>
-        <TextBox TextWrapping="Wrap" Text="TextBox"  x:Name="Zutat13" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="316,162,0,0" Width="140">
+        <TextBox TextWrapping="Wrap" Text=""  x:Name="Zutat13" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="316,128,0,0" Width="140">
             <TextBox.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleY="1"/>
@@ -169,7 +159,7 @@
                 </TransformGroup>
             </TextBox.RenderTransform>
         </TextBox>
-        <TextBox TextWrapping="Wrap" Text="TextBox"  x:Name="Zutat14" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="316,189,0,0" Width="140">
+        <TextBox TextWrapping="Wrap" Text=""  x:Name="Zutat14" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="316,162,0,0" Width="140">
             <TextBox.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleY="1"/>
@@ -179,7 +169,7 @@
                 </TransformGroup>
             </TextBox.RenderTransform>
         </TextBox>
-        <TextBox TextWrapping="Wrap" Text="TextBox"  x:Name="Zutat15" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="316,217,0,0" Width="140">
+        <TextBox TextWrapping="Wrap" Text=""  x:Name="Zutat15" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="316,189,0,0" Width="140">
             <TextBox.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleY="1"/>
@@ -189,7 +179,7 @@
                 </TransformGroup>
             </TextBox.RenderTransform>
         </TextBox>
-        <TextBox TextWrapping="Wrap" Text="TextBox"  x:Name="Zutat16" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="316,249,0,0" Width="140">
+        <TextBox TextWrapping="Wrap" Text=""  x:Name="Zutat16" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="316,217,0,0" Width="140">
             <TextBox.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleY="1"/>
@@ -199,7 +189,7 @@
                 </TransformGroup>
             </TextBox.RenderTransform>
         </TextBox>
-        <TextBox TextWrapping="Wrap" Text="TextBox"  x:Name="Zutat17" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="316,276,0,0" Width="140">
+        <TextBox TextWrapping="Wrap" Text=""  x:Name="Zutat17" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="316,249,0,0" Width="140">
             <TextBox.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleY="1"/>
@@ -210,5 +200,15 @@
             </TextBox.RenderTransform>
         </TextBox>
         <TextBox TextWrapping="Wrap" Text="" x:Name="DescriptionBox" Margin="494,91,39,288"/>
+        <TextBox TextWrapping="Wrap" Text=""  x:Name="Zutat18" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="316,276,0,0" Width="140">
+            <TextBox.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleY="1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </TextBox.RenderTransform>
+        </TextBox>
     </Grid>
 </Window>
