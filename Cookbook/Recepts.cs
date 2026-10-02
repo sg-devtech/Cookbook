@@ -6,11 +6,11 @@ namespace Cookbook
 {
     public class Recepts
     {
-        public int AnzahlderZutaten;
-        public string[] NamenDerZutaten;
+        public int AnzahlderZutaten { get; set; }
+        public string Topic { get; set; }
 
-        public string Zubereitung;
+        public string Zubereitung { get; set; }
 
-        public List<string> Materials = new List<string>();
+        public List<string> Materials { get; set; } = new List<string>();
     }
 }

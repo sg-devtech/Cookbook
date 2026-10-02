@@ -2,6 +2,7 @@
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Text.Json;
 
 namespace Cookbook
 {
@@ -10,6 +11,9 @@ namespace Cookbook
     /// </summary>
     public partial class MainWindow : Window
     {
+        Recepts NeuesRezept = new Recepts();
+
+
         public MainWindow()
         {
             InitializeComponent();
@@ -19,12 +23,14 @@ namespace Cookbook
 
         private void AnzahlZutaten_TextChanged(object sender, TextChangedEventArgs e)
         {
+            
             if (!int.TryParse(AnzahlZutaten.Text, out int anzahl))
             {
                 return;
 
             }
 
+            TopicLabel.Visibility = Visibility.Hidden;
             Zutat1.Visibility = anzahl >= 1 ? Visibility.Visible : Visibility.Hidden;
             Zutat2.Visibility = anzahl >= 2 ? Visibility.Visible : Visibility.Hidden;
             Zutat3.Visibility = anzahl >= 3 ? Visibility.Visible : Visibility.Hidden;
@@ -43,89 +49,104 @@ namespace Cookbook
             Zutat16.Visibility = anzahl >= 16 ? Visibility.Visible : Visibility.Hidden;
             Zutat17.Visibility = anzahl >= 17 ? Visibility.Visible : Visibility.Hidden;
             Zutat18.Visibility = anzahl >= 18 ? Visibility.Visible : Visibility.Hidden;
-
-
-        }
-        private void ArrowLeft_Click(object sender, RoutedEventArgs e)
-        {
-
+            
         }
 
-        private void ArrowRight_Click(object sender, RoutedEventArgs e)
-        {
 
-        }
+
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
+           
 
-            AddIngredients();
+
             if (AnzahlZutaten == null || string.IsNullOrWhiteSpace(AnzahlZutaten.Text))
                 return;
             if (!int.TryParse(AnzahlZutaten.Text, out int anzahl))
                 return;
 
-            Recepts NeuesRezept = new Recepts();
-            if (AnzahlZutaten != null || Zutat1 != null || Zutat2 != null || Zutat3 != null || Zutat4 != null || Zutat5 != null || Zutat6 != null
-                || Zutat7 != null || Zutat8 != null || Zutat9 != null || Zutat10 != null || Zutat11 != null || Zutat12 != null || Zutat13 != null
-                || Zutat14 != null || Zutat15 != null || Zutat16 != null || Zutat17 != null)
+
+
+
+            NeuesRezept.AnzahlderZutaten = Convert.ToInt32(AnzahlZutaten.Text); //Die Anzahl der Zutaten
+
+            Console.WriteLine(NeuesRezept.AnzahlderZutaten);
+            string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+
+
+            for (int i = 0; i < NeuesRezept.AnzahlderZutaten + 1; i++)
             {
-
-                NeuesRezept.AnzahlderZutaten = Convert.ToInt32(AnzahlZutaten.Text);
-
-                Console.WriteLine(NeuesRezept.AnzahlderZutaten);
-                string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                StreamWriter sr = new StreamWriter(path + "/Cookbook/Rezepte");
-                sr.WriteLine(NeuesRezept.AnzahlderZutaten);
-
-
-                for (int i = 0; i < NeuesRezept.AnzahlderZutaten + 1; i++)
+                if (NeuesRezept.Topic == NameOfTheRecept.Text)
                 {
-                    var element = FindName($"Zutat{i}") as TextBox;
+                    MessageBox.Show("Es existiert bereits ein Rezept mit diesem Namen. Bitte wählen Sie einen anderen Namen.");
+                    return;
 
-                    if (element == null)
-                    {
-                        continue;
-                    }
-                    string xy = element.Text.ToString();
-                    NeuesRezept.Materials.Add(xy);
-                    sr.WriteLine(xy);
                 }
-                sr.Close();
+                else { 
+                var element = FindName($"Zutat{i}") as TextBox;
+
+                if (element == null)
+                {
+                    continue;
+                }
+                string xy = element.Text.ToString();
+                NeuesRezept.Materials.Add(xy);
+
             }
+            }
+
             MessageBox.Show("Datei erfolgreich gespeichert");
 
-        }
+            if (Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)))
+            {
+                string path1 = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                NeuesRezept.Zubereitung = DescriptionBox.Text; //Die Beschreibung der Zutaten wird in die Textdatei geschrieben. //Hier muss mit json gearbeitet werden. Beschreibung der Zutaten..
+            }
+            if (Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)))
+            {
+                string path2 = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
-        private void CreateFolder()
+                NeuesRezept.Topic = NameOfTheRecept.Text; //der Name der Zutaten.
+                var options = new JsonSerializerOptions { WriteIndented = true };
+                string jsonString = JsonSerializer.Serialize(NeuesRezept, options);
+                
+
+                if (File.Exists(path2 + $"/Cookbook/{NeuesRezept.Topic}.json"))
+                {
+                    int counter = 1;
+                    string newFilePath;
+                    do
+                    {
+                        newFilePath = Path.Combine(path2 + "/Cookbook/", $"{NeuesRezept.Topic}_{counter}.json");
+                        counter++;
+                    } while (File.Exists(newFilePath));
+                    File.WriteAllText(newFilePath, jsonString);
+                }
+                  else
+                File.WriteAllText(path2 + $"/Cookbook/{NeuesRezept.Topic}.json", jsonString);
+            }
+
+        }
+        private static void CreateFolder()
         {
             // Pfad zum Dokumenten-Ordner holen
             string dokumentePfad = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
             // Ordnerpfad korrekt mit Path.Combine zusammenfügen
-            string ordnerPfad = Path.Combine(dokumentePfad, "Cookbook");
+            string ordnerPfad = Path.Combine(dokumentePfad, "Cookbook/");
 
             // 1. Ordner erstellen (erstellt ihn nur, wenn er noch nicht existiert)
             Directory.CreateDirectory(ordnerPfad);
 
             // 2. Dateipfad für die Textdatei definieren
-            string dateiPfad = Path.Combine(ordnerPfad, "Description.txt");
-            string dateiPfad2 = Path.Combine(ordnerPfad, "Rezepte.txt");
+
 
             Debug.WriteLine("Ordner und Datei wurden erfolgreich erstellt.");
         }
 
 
 
-        public void AddIngredients()
-        {
-            if (Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)))
-            {
-                string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                Ingredients.Text = DescriptionBox.Text;
-                File.AppendAllText(path + "/Cookbook/Description", Ingredients.Text + Environment.NewLine);
-            }
-        }
 
         private void Zutat1_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -136,5 +157,49 @@ namespace Cookbook
         {
 
         }
-    }
-} //Es wäre wahrscheinlich besser mit json.
+
+        private void NewRecept_Click(object sender, RoutedEventArgs e)
+        {
+            Window main = new MainWindow();
+            main.Show();
+            this.Close();
+        }
+
+        private void ReceptSearch_Click(object sender, RoutedEventArgs e)
+        {
+            string dokumentePfad = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+            // Ordnerpfad korrekt mit Path.Combine zusammenfügen
+
+            if(!File.Exists(Path.Combine(dokumentePfad, $"Cookbook/{NameOfTheRecept.Text}.json")))
+            {
+                MessageBox.Show("Es existiert kein Rezept mit diesem Namen. Bitte geben Sie einen gültigen Namen ein.");
+                return;
+            }
+            string ordnerPfad = Path.Combine(dokumentePfad, $"Cookbook/{NameOfTheRecept.Text}.json");
+            string jsonString = File.ReadAllText(ordnerPfad);
+            Recepts recepts = JsonSerializer.Deserialize<Recepts>(jsonString);
+
+            int anzahlZutaten = recepts.AnzahlderZutaten;
+            string description = recepts.Zubereitung;
+            string topic = recepts.Topic;
+
+            AnzahlZutaten.Text = anzahlZutaten.ToString(); //Klappt
+            Ingredients.Text = description.ToString();
+            NameOfTheRecept.Text = topic.ToString();
+
+            for(int i = 0; i < recepts.Materials.Count; i++)
+            {
+                var element = FindName($"Zutat{i + 1}") as TextBox;
+                if (element != null)
+                {
+                    element.Text = recepts.Materials[i];
+                }
+            }
+            DescriptionBox.Visibility = Visibility.Hidden;
+            TopicLabel.Visibility = Visibility.Visible;
+
+            MessageBox.Show($"Anzahl der Zutaten: {recepts.AnzahlderZutaten}\nTopic: {recepts.Topic}\nZubereitung: {recepts.Zubereitung}\nMaterials: {string.Join(", ", recepts.Materials)}");
+        }
+    } 
+} 
